@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['lobters.me', '142.93.228.142', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'bot.apps.BotConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

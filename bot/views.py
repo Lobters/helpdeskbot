@@ -3,4 +3,6 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse('hello')
+    with open('requests.txt', 'a') as f:
+        f.write(request.body)
+    return HttpResponse(True)

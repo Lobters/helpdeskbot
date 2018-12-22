@@ -5,4 +5,4 @@ from django.http import HttpResponse
 def index(request):
     with open('requests.txt', 'a') as f:
         f.write(str(request.body))
-    return HttpResponse(True)
+    return HttpResponse(status=200)

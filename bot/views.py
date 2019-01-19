@@ -6,7 +6,6 @@ import json
 
 @csrf_exempt
 def index(request):
-    jsonData = json.loads(str(request.body.decode('UTF-8')))
-    with open('test_requests.txt', 'a') as f:
-        print(type(jsonData))
+    data = json.loads(str(request.body.decode('UTF-8')))
+    print(data['message']['text'])
     return HttpResponse(status=200)

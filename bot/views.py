@@ -11,7 +11,7 @@ from answer import make_answer
 def index(request):
     try:
         with open('error_log.txt', 'a') as f:
-            f.write(str(request.body.decode('UTF-8')))
+            f.write(str(request.body.decode('UTF-8').replace('\0', '')))
         data = json.loads(str(request.body.decode('UTF-8')))
         answer = str(make_answer(data))
         requests.get(answer)

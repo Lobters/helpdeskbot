@@ -10,6 +10,8 @@ from answer import make_answer
 @csrf_exempt
 def index(request):
     try:
+        with open('error_log.txt', 'a') as f:
+            f.write('Success')
         data = json.loads(str(request.body.decode('UTF-8')))
         answer = make_answer(data)
         requests.get(answer)

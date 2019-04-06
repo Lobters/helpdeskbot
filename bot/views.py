@@ -27,7 +27,7 @@ class Message:
         self.user = User(deserialized_message['from'])
         self.chat = Chat(deserialized_message['chat'])
         self.date = datetime.datetime.fromtimestamp(deserialized_message['date'])
-        self.text = '123'
+        self.text = deserialized_message['text']
 
     def __str__(self):
         return '"{}" message from {}'.format(self.text, self.user)

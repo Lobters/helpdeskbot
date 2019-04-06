@@ -217,4 +217,8 @@ fabric.properties
 # Sonarlint plugin
 .idea/sonarlint
 
+
+# PyCharm .idea
+.idea
+
 # End of https://www.gitignore.io/api/django,pycharm

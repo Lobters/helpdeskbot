@@ -11,13 +11,40 @@ from answer import make_answer
 
 logging.basicConfig(filename='requests.log', level=logging.INFO)
 
+base_api_url = 'https://api.telegram.org/bot722520790:AAEM0nUuaAD9BWFp0jv58VkeX3m-85DQOq0/'
+
 
 @csrf_exempt
 def index(request):
     raw_message = request.body.decode('cp1251')
     message = Message(raw_message)
     logging.info(message)
+    postman = Postman(message)
+    postman.send_response()
     return HttpResponse(status=200)
+
+
+class Postman:
+    def __init__(self, message):
+        self.message = message
+
+    def generate_response(self):
+        return 'Hi, {}!'.format(self.message.user)
+
+    @staticmethod
+    def make_api_url(method, **kwargs):
+        api_url = base_api_url + method + '?'
+        for key, value in kwargs.items():
+            api_url += key
+            api_url += '='
+            api_url += value
+        return api_url
+
+    def send_response(self):
+        response = self.generate_response()
+        api_url = self.make_api_url('sendMessage', chat_id=self.message.chat.id, text=response)
+        sent_response = requests.get(api_url)
+        return sent_response
 
 
 class Message:

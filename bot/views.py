@@ -20,7 +20,7 @@ def index(request):
     message = Message(raw_message)
     logging.info(message)
     postman = Postman(message)
-    postman.send_response()
+    logging.info(postman.send_response())
     return HttpResponse(status=200)
 
 

@@ -29,13 +29,13 @@ class Postman:
         self.message = message
 
     def generate_response(self):
-        return 'Hi, {}!'.format(self.message.user)
+        return "'Hi, {}!'".format(self.message.user)
 
     @staticmethod
     def make_api_url(method, **kwargs):
         api_url = base_api_url + method + '?'
         for key, value in kwargs.items():
-            api_url += str(key) + '=' + str(value)
+            api_url += str(key) + '=' + str(value) + '&'
         return api_url
 
     def send_response(self):

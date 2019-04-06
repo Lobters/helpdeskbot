@@ -41,6 +41,7 @@ class Postman:
     def send_response(self):
         response = self.generate_response()
         api_url = self.make_api_url('sendMessage', chat_id=self.message.chat.id, text=response)
+        logging.info(api_url)
         sent_response = requests.get(api_url)
         return sent_response
 

@@ -22,7 +22,7 @@ def index(request):
 
 class Message:
     def __init__(self, raw_message):
-        deserialized_message = json.loads(raw_message['message'])
+        deserialized_message = json.loads(raw_message)['message']
         self.message_id = deserialized_message['message_id']
         self.user = User(deserialized_message['from'])
         self.chat = Chat(deserialized_message['chat'])

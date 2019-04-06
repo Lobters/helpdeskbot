@@ -32,17 +32,19 @@ class Postman:
         return "'Hi, {}!'".format(self.message.user)
 
     @staticmethod
-    def make_api_url(method, **kwargs):
-        api_url = base_api_url + method + '?'
-        for key, value in kwargs.items():
-            api_url += str(key) + '=' + str(value) + '&'
-        return api_url
+    def make_api_url(method, api_method, **kwargs):
+        if method == 'GET':
+            api_url = base_api_url + method + '?'
+            for key, value in kwargs.items():
+                api_url += str(key) + '=' + str(value) + '&'
+            return api_url
+        return base_api_url + '?' + api_method
 
     def send_response(self):
         response = self.generate_response()
-        api_url = self.make_api_url('sendMessage', chat_id=self.message.chat.id, text=response)
+        api_url = self.make_api_url('POST', 'sendMessage')
         logging.info(api_url)
-        sent_response = requests.get(api_url)
+        sent_response = requests.post(api_url, {'chat_id': self.message.chat.id, 'text': response})
         return sent_response
 
 

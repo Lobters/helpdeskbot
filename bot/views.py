@@ -38,7 +38,7 @@ class Postman:
             for key, value in kwargs.items():
                 api_url += str(key) + '=' + str(value) + '&'
             return api_url
-        return base_api_url + '?' + api_method
+        return base_api_url + api_method
 
     def send_response(self):
         response = self.generate_response()

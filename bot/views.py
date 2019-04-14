@@ -17,8 +17,8 @@ base_api_url = 'https://api.telegram.org/bot722520790:AAEM0nUuaAD9BWFp0jv58VkeX3
 @csrf_exempt
 def index(request):
     raw_message = request.body.decode('cp1251')
+    logging.info(raw_message)
     message = Message(raw_message)
-    logging.info(message)
     postman = Postman(message)
     logging.info(postman.send_response())
     return HttpResponse(status=200)

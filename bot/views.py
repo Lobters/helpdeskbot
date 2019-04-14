@@ -8,8 +8,9 @@ import logging
 import json
 
 from answer import make_answer
+from bot.models import TelegramUser
 
-logging.basicConfig(filename='requests.log', level=logging.INFO)
+logging.basicConfig(filename='messages.log', level=logging.INFO)
 
 base_api_url = 'https://api.telegram.org/bot722520790:AAEM0nUuaAD9BWFp0jv58VkeX3m-85DQOq0/'
 
@@ -17,10 +18,14 @@ base_api_url = 'https://api.telegram.org/bot722520790:AAEM0nUuaAD9BWFp0jv58VkeX3
 @csrf_exempt
 def index(request):
     raw_message = request.body.decode('cp1251')
-    logging.info(raw_message)
-    message = Message(raw_message)
+    deserialized_message = json.loads(raw_message)['message']
+
+    message = Message(deserialized_message)
+    logging.info(message)
+    user = TelegramUser.objects.create_user_from_json(deserialized_message['from'])
+    logging.info(user)
     postman = Postman(message)
-    logging.info(postman.send_response())
+    postman.send_response()
     return HttpResponse(status=200)
 
 
@@ -46,14 +51,12 @@ class Postman:
     def send_response(self):
         response = self.generate_response()
         api_url = self.make_api_url('POST', 'sendMessage')
-        logging.info(api_url)
         sent_response = requests.post(api_url, {'chat_id': self.message.chat.id, 'text': response})
         return sent_response
 
 
 class Message:
-    def __init__(self, raw_message):
-        deserialized_message = json.loads(raw_message)['message']
+    def __init__(self, deserialized_message):
         self.message_id = deserialized_message['message_id']
         self.user = User(deserialized_message['from'])
         self.chat = Chat(deserialized_message['chat'])

@@ -32,13 +32,13 @@ class TelegramChat(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     username = models.CharField(max_length=30)
-    TYPES = [
-        'private',
-        'group',
-        'supergroup',
-        'channel'
-    ]
-    type = models.CharField(choices=TYPES)
+    TYPES = (
+        ("pr", 'private'),
+        ('gr', 'group'),
+        ('su', 'supergroup'),
+        ('ch', 'channel'),
+    )
+    type = models.CharField(max_length=15, choices=TYPES)
 
     def __str__(self):
         return self.first_name or self.id

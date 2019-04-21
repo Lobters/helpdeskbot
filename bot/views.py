@@ -22,7 +22,11 @@ def index(request):
 
     message = Message(deserialized_message)
     logging.info(message)
-    user = TelegramUser.objects.create_user_from_json(deserialized_message['from'])
+
+    user = TelegramUser.objects.get(id=deserialized_message('id'))
+    if not user:
+        user = TelegramUser.objects.create_user_from_json(deserialized_message['from'])
+
     logging.info(user)
     postman = Postman(message)
     postman.send_response()

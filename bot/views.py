@@ -4,6 +4,7 @@ import logging
 import requests
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
 
 from bot.models import TelegramUser, TelegramChat, TelegramMessage
 
@@ -55,13 +56,12 @@ class Postman:
 
         try:
             chat = TelegramChat.objects.get(id=deserialized_message['chat']['id'])
-        except TelegramChat.DoesNotExist:
+        except ObjectDoesNotExist:
             chat = TelegramChat.objects.create_chat_from_json(deserialized_message['chat'])
 
         try:
             user = TelegramUser.objects.get(id=deserialized_message['from']['id'])
-
-        except TelegramUser.DoesNotExist:
+        except ObjectDoesNotExist:
             user = TelegramUser.objects.create_user_from_json(deserialized_message['from'])
 
         message = TelegramMessage.objects.create_message_from_json(deserialized_message, user, chat)

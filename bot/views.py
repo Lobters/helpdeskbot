@@ -53,13 +53,16 @@ class Postman:
             logging.critical("process_raw_request: no key 'message' in request.")
             raise KeyError
 
-        user = TelegramUser.objects.get(id=deserialized_message['from']['id'])
-        chat = TelegramChat.objects.get(id=deserialized_message['chat']['id'])
-
-        if not user:
-            user = TelegramUser.objects.create_user_from_json(deserialized_message['from'])
-        if not chat:
+        try:
+            chat = TelegramChat.objects.get(id=deserialized_message['chat']['id'])
+        except TelegramChat.DoesNotExist:
             chat = TelegramChat.objects.create_chat_from_json(deserialized_message['chat'])
+
+        try:
+            user = TelegramUser.objects.get(id=deserialized_message['from']['id'])
+
+        except TelegramUser.DoesNotExist:
+            user = TelegramUser.objects.create_user_from_json(deserialized_message['from'])
 
         message = TelegramMessage.objects.create_message_from_json(deserialized_message, user, chat)
 

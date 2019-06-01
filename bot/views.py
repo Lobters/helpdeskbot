@@ -49,10 +49,10 @@ class Postman:
     @staticmethod
     def process_raw_request(request):
         raw_message = request.body.decode('cp1251')
+        with open("views.log", 'a') as f:
+            f.write(raw_message)
         try:
             deserialized_message = json.loads(raw_message)['message']
-            with open("views.log", 'a') as f:
-                f.write(deserialized_message)
         except KeyError:
             logging.critical("process_raw_request: no key 'message' in request.")
             raise KeyError

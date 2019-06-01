@@ -18,7 +18,7 @@ class TelegramUserManager(models.Manager):
             user.save()
         except Exception as e:
             logging.critical("create_user_from_json: can not create user. Exception: " + str(e))
-            raise Exception
+            raise e
 
 
 class TelegramUser(models.Model):
@@ -46,7 +46,7 @@ class TelegramChatManager(models.Manager):
             chat.save()
         except Exception as e:
             logging.critical("create_chat_from_json: can not create chat. Exception: " + str(e))
-            raise Exception
+            raise e
 
 
 class TelegramChat(models.Model):
@@ -76,7 +76,7 @@ class TelegramMessageManager(models.Manager):
             message.save()
         except Exception as e:
             logging.critical("create_message_from_json: can not create message. Exception: " + str(e))
-            raise Exception
+            raise e
 
 
 class TelegramMessage(models.Model):

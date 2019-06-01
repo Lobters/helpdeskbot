@@ -14,10 +14,11 @@ logging.basicConfig(filename='views.log', level=logging.INFO)
 
 @csrf_exempt
 def index(request):
+    return HttpResponse(status=200)
+
     _, _, message = Postman.process_raw_request(request)
     postman = Postman(message)
     postman.send_response()
-    return HttpResponse(status=200)
 
 
 
@@ -67,7 +68,7 @@ class Postman:
         except ObjectDoesNotExist:
             user = TelegramUser.objects.create_user_from_json(deserialized_message['from'])
         try:
-            message = TelegramMessage.objects.get(id=deserialized_message['message_id'])
+            message = TelegramMessage.objects.get(message_id=deserialized_message['message_id'])
         except ObjectDoesNotExist:
             message = TelegramMessage.objects.create_message_from_json(deserialized_message, user, chat)
 

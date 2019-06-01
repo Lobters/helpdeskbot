@@ -23,7 +23,8 @@ def index(request):
 class Postman:
     def __init__(self, message):
         self.message = message
-        logging.info(self.message)
+        with open("views.log", 'a') as f:
+            f.write(message)
 
     def generate_response(self):
         if self.message.text == 'Hi':

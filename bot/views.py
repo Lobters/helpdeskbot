@@ -24,7 +24,6 @@ class Postman:
     def __init__(self, message):
         self.message = message
 
-
     def generate_response(self):
         if self.message.text == 'Hi':
             return "Hi, {}!".format(self.message.user)
@@ -66,8 +65,9 @@ class Postman:
             user = TelegramUser.objects.get(id=deserialized_message['from']['id'])
         except ObjectDoesNotExist:
             user = TelegramUser.objects.create_user_from_json(deserialized_message['from'])
-
-        message = TelegramMessage.objects.create_message_from_json(deserialized_message, user, chat)
-
+        try:
+            message = TelegramMessage.objects.get(id=deserialized_message['message_id'])
+        except ObjectDoesNotExist:
+            message = TelegramMessage.objects.create_message_from_json(deserialized_message, user, chat)
 
         return user, chat, message

@@ -50,7 +50,7 @@ class TelegramChatManager(models.Manager):
 
 
 class TelegramChat(models.Model):
-    objects = TelegramChatManager
+    objects = TelegramChatManager()
     id = models.IntegerField(primary_key=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -80,7 +80,7 @@ class TelegramMessageManager(models.Manager):
 
 
 class TelegramMessage(models.Model):
-    objects = TelegramMessageManager
+    objects = TelegramMessageManager()
     message_id = models.IntegerField(primary_key=True)
     user = models.ForeignKey(TelegramUser, on_delete=models.CASCADE)
     chat = models.ForeignKey(TelegramChat, on_delete=models.CASCADE)

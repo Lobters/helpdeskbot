@@ -13,7 +13,7 @@ class TelegramUserManager(models.Manager):
             last_name = user_object.get('last_name')
             username = user_object.get('username')
             language_code = user_object.get('language_code')
-            user = self.objects.create(id=id, is_bot=is_bot, first_name=first_name, last_name=last_name,
+            user = TelegramUser.objects.create(id=id, is_bot=is_bot, first_name=first_name, last_name=last_name,
                                        username=username, language_code=language_code)
             user.save()
         except Exception as e:
@@ -42,7 +42,7 @@ class TelegramChatManager(models.Manager):
             last_name = chat_object.get('last_name', '')
             username = chat_object.get('username', '')
             type = chat_object.get('type', '')
-            chat = self.objects.create(id=id, first_name=first_name, last_name=last_name, username=username, type=type)
+            chat = TelegramChat.objects.create(id=id, first_name=first_name, last_name=last_name, username=username, type=type)
             chat.save()
         except Exception as e:
             logging.critical("create_chat_from_json: can not create chat. Exception: " + str(e))
@@ -72,7 +72,7 @@ class TelegramMessageManager(models.Manager):
         try:
             message_id = message_object.get('message_id')
             text = message_object.get('text')
-            message = self.objects.create(message_id=message_id, user=user, chat=chat, text=text)
+            message = TelegramMessage.objects.create(message_id=message_id, user=user, chat=chat, text=text)
             message.save()
         except Exception as e:
             logging.critical("create_message_from_json: can not create message. Exception: " + str(e))

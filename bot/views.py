@@ -7,24 +7,13 @@ from django.views.decorators.csrf import csrf_exempt
 
 from bot.models import TelegramUser, TelegramChat, TelegramMessage
 
-logging.basicConfig(filename='messages.log', level=logging.INFO)
-
 base_api_url = 'https://api.telegram.org/bot722520790:AAEM0nUuaAD9BWFp0jv58VkeX3m-85DQOq0/'
+logging.basicConfig(filename='views.log', level=logging.INFO)
 
 
 @csrf_exempt
 def index(request):
-    raw_message = request.body.decode('cp1251')
-    deserialized_message = json.loads(raw_message)['message']
-
-    user = TelegramUser.objects.get(id=deserialized_message['from']['id'])
-    chat = TelegramChat.objects.get(id=deserialized_message['chat']['id'])
-    if not user:
-        user = TelegramUser.objects.create_user_from_json(deserialized_message['from'])
-    if not chat:
-        chat = TelegramChat.objects.create_chat_from_json(deserialized_message['chat'])
-    message = TelegramMessage.objects.create_message_from_json(deserialized_message, user, chat)
-
+    _, _, message = Postman.process_raw_request(request)
     postman = Postman(message)
     postman.send_response()
     return HttpResponse(status=200)
@@ -54,3 +43,24 @@ class Postman:
         api_url = self.make_api_url('POST', 'sendMessage')
         sent_response = requests.post(api_url, {'chat_id': self.message.chat.id, 'text': response})
         return sent_response
+
+    @staticmethod
+    def process_raw_request(request):
+        raw_message = request.body.decode('cp1251')
+        try:
+            deserialized_message = json.loads(raw_message)['message']
+        except KeyError:
+            logging.critical("process_raw_request: no key 'message' in request.")
+            raise KeyError
+
+        user = TelegramUser.objects.get(id=deserialized_message['from']['id'])
+        chat = TelegramChat.objects.get(id=deserialized_message['chat']['id'])
+
+        if not user:
+            user = TelegramUser.objects.create_user_from_json(deserialized_message['from'])
+        if not chat:
+            chat = TelegramChat.objects.create_chat_from_json(deserialized_message['chat'])
+
+        message = TelegramMessage.objects.create_message_from_json(deserialized_message, user, chat)
+
+        return user, chat, message

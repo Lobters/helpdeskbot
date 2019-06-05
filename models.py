@@ -14,7 +14,7 @@ class TelegramUserManager(models.Manager):
             username = user_object.get('username')
             language_code = user_object.get('language_code')
             user = TelegramUser.objects.create(id=id, is_bot=is_bot, first_name=first_name, last_name=last_name,
-                                       username=username, language_code=language_code)
+                                               username=username, language_code=language_code)
             user.save()
         except Exception as e:
             logging.critical("create_user_from_json: can not create user. Exception: " + str(e))
@@ -31,7 +31,7 @@ class TelegramUser(models.Model):
     language_code = models.CharField(default='ru', max_length=4)
 
     def __str__(self):
-        return str(self.username)
+        return self.username
 
 
 class TelegramChatManager(models.Manager):
@@ -42,7 +42,8 @@ class TelegramChatManager(models.Manager):
             last_name = chat_object.get('last_name', '')
             username = chat_object.get('username', '')
             type = chat_object.get('type', '')
-            chat = TelegramChat.objects.create(id=id, first_name=first_name, last_name=last_name, username=username, type=type)
+            chat = TelegramChat.objects.create(id=id, first_name=first_name, last_name=last_name, username=username,
+                                               type=type)
             chat.save()
         except Exception as e:
             logging.critical("create_chat_from_json: can not create chat. Exception: " + str(e))
@@ -88,4 +89,4 @@ class TelegramMessage(models.Model):
     text = models.CharField(max_length=270)
 
     def __str__(self):
-        return self.user
+        return self.user.username

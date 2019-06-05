@@ -4,7 +4,7 @@ import logging
 import requests
 from django.core.exceptions import ObjectDoesNotExist
 
-from helpdeskbot.bot.models import TelegramChat, TelegramUser, TelegramMessage
+from .models import TelegramChat, TelegramUser, TelegramMessage
 
 base_api_url = 'https://api.telegram.org/bot722520790:AAEM0nUuaAD9BWFp0jv58VkeX3m-85DQOq0/'
 

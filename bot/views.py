@@ -3,7 +3,7 @@ import logging
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from helpdeskbot.bot.Postman import Postman
+from .Postman import Postman
 
 logging.basicConfig(filename='errors.log', level=logging.ERROR)
 

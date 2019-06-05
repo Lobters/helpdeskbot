@@ -1,0 +1,23 @@
+{
+  "update_id": 822066365,
+  "message": {
+    "message_id": 80,
+    "from": {
+      "id": 303372033,
+      "is_bot": false,
+      "first_name": "\u0410\u0440\u0442\u0435\u043c",
+      "last_name": "\u0411\u0430\u043a\u0443\u043b\u0435\u0432",
+      "username": "provincial_tracer",
+      "language_code": "ru"
+    },
+    "chat": {
+      "id": 303372033,
+      "first_name": "\u0410\u0440\u0442\u0435\u043c",
+      "last_name": "\u0411\u0430\u043a\u0443\u043b\u0435\u0432",
+      "username": "provincial_tracer",
+      "type": "private"
+    },
+    "date": 1559415946,
+    "text": "Hi"
+  }
+}

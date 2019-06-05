@@ -90,3 +90,17 @@ class TelegramMessage(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Task(models.Model):
+    user = models.ForeignKey(TelegramUser, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    desc = models.CharField(max_length=300)
+    created = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField()
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['-created']

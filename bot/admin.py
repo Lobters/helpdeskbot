@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from bot.models import TelegramUser, TelegramChat, TelegramMessage
+from .models import TelegramUser, TelegramChat, TelegramMessage
 
 admin.site.register(TelegramUser)
 admin.site.register(TelegramChat)

@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
 
-from bot.models import TelegramUser, TelegramChat, TelegramMessage
+from .models import TelegramUser, TelegramChat, TelegramMessage
 
 base_api_url = 'https://api.telegram.org/bot722520790:AAEM0nUuaAD9BWFp0jv58VkeX3m-85DQOq0/'
 logging.basicConfig(filename='views.log', level=logging.INFO)
@@ -14,13 +14,10 @@ logging.basicConfig(filename='views.log', level=logging.INFO)
 
 @csrf_exempt
 def index(request):
-
     _, _, message = Postman.process_raw_request(request)
     postman = Postman(message)
     postman.send_response()
     return HttpResponse(status=200)
-
-
 
 
 class Postman:
